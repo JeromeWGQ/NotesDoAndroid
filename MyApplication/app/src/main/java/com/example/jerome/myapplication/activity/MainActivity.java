@@ -1,5 +1,6 @@
 package com.example.jerome.myapplication.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onPictureClicked(View view) {
-        //TODO: 跳转至显示图片的界面
+    public void onHomePageClicked(View view) {
+        Intent intent = new Intent(this, HomepageActivity.class);
+        startActivity(intent);
     }
 }
