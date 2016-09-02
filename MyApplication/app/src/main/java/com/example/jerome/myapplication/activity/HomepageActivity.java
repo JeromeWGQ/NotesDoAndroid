@@ -2,6 +2,7 @@ package com.example.jerome.myapplication.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,15 +16,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.jerome.myapplication.R;
 import com.example.jerome.myapplication.fragment.NoteFragment;
 import com.example.jerome.myapplication.fragment.RemindFragment;
 import com.example.jerome.myapplication.fragment.SettingFragment;
 import com.example.jerome.myapplication.fragment.SortFragment;
+import com.example.jerome.myapplication.fragment.dummy.DummyContent;
+import com.example.localalbum.ui.DynamicPost;
 
 public class HomepageActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NoteFragment.OnListFragmentInteractionListener {
 
     private final int SelectedNote = 0;
     private final int SelectedSort = 1;
@@ -37,22 +41,22 @@ public class HomepageActivity extends AppCompatActivity
     private FragmentManager fm;
     private FragmentTransaction ft;
 
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLocalAlbum();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -67,9 +71,15 @@ public class HomepageActivity extends AppCompatActivity
         contentFrame = (FrameLayout) findViewById(R.id.fragment_content);
 
         fm = getFragmentManager();
-        ft= fm.beginTransaction();
-        ft.replace(R.id.fragment_content,new NoteFragment());
+        ft = fm.beginTransaction();
+        toolbar.setTitle("全部笔记");
+        ft.replace(R.id.fragment_content, new NoteFragment());
         ft.commit();
+    }
+
+    private void showLocalAlbum() {
+        Intent intent = new Intent(this, DynamicPost.class);
+        startActivity(intent);
     }
 
     @Override
@@ -111,28 +121,37 @@ public class HomepageActivity extends AppCompatActivity
 
         if (id == R.id.nav_note) {
             fm = getFragmentManager();
-            ft= fm.beginTransaction();
-            ft.replace(R.id.fragment_content,new NoteFragment());
+            ft = fm.beginTransaction();
+            toolbar.setTitle("全部笔记");
+            ft.replace(R.id.fragment_content, new NoteFragment());
             ft.commit();
         } else if (id == R.id.nav_sort) {
             fm = getFragmentManager();
-            ft= fm.beginTransaction();
-            ft.replace(R.id.fragment_content,new SortFragment());
+            ft = fm.beginTransaction();
+            toolbar.setTitle("分类");
+            ft.replace(R.id.fragment_content, new SortFragment());
             ft.commit();
         } else if (id == R.id.nav_remind) {
             fm = getFragmentManager();
-            ft= fm.beginTransaction();
-            ft.replace(R.id.fragment_content,new RemindFragment());
+            ft = fm.beginTransaction();
+            toolbar.setTitle("事项");
+            ft.replace(R.id.fragment_content, new RemindFragment());
             ft.commit();
         } else if (id == R.id.nav_setting) {
             fm = getFragmentManager();
-            ft= fm.beginTransaction();
-            ft.replace(R.id.fragment_content,new SettingFragment());
+            ft = fm.beginTransaction();
+            toolbar.setTitle("设置");
+            ft.replace(R.id.fragment_content, new SettingFragment());
             ft.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+        Toast.makeText(this, item.toString(), Toast.LENGTH_SHORT).show();
     }
 }

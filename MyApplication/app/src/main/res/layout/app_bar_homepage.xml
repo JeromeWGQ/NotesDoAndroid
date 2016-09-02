@@ -9,8 +9,8 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -22,5 +22,18 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_homepage" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/list"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/list"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="45dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@mipmap/icon_camera" />
 
 </android.support.design.widget.CoordinatorLayout>
